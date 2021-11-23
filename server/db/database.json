@@ -1,0 +1,22 @@
+{
+    "staging": {
+      "driver": "mysql",
+      "user": "root",
+      "password": "root1234",
+      "database": "vocab_stag"
+    },
+    "development": {
+      "driver": "mysql",
+      "user": "root",
+      "password": "root1234",
+      "database": "vocab_dev"
+    },
+  
+    "production": {
+      "driver": "mysql",
+      "user": "root",
+      "password": "root1234",
+      "database": "vocab_prod"
+    }
+  }
+  
