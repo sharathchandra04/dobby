@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+#credentials
+.src/client_secret_19930369842-1onpt44bcn1tgsp6obegvii2a17enckv.apps.googleusercontent.com.json
