@@ -3,6 +3,7 @@ source ./installnvm
 source ~/.bashrc
 source ~/.nvm/nvm.sh
 nvm --version
+nvm install 15
 nvm use 15
 npm install
 npm run runserverprod
