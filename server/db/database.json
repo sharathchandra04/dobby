@@ -11,7 +11,6 @@
       "password": "root1234",
       "database": "vocab_dev"
     },
-  
     "production": {
       "driver": "mysql",
       "user": "root",

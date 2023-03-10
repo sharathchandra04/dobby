@@ -1,3 +1,4 @@
+import db from './db/pg';
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -17,28 +18,29 @@ app.use(bodyParser.json())
 
 const port = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV != 'development'
-const DIST_DIR = path.join(__dirname, `../dist/${isProduction?'prod':'dev'}`);
-const HTML_FILE = path.join(DIST_DIR, 'index.html');
-
+const isProduction1 = process.env.ENVIRONMENT != 'development'
+// const DIST_DIR = path.join(__dirname, `../dist/${isProduction?'prod':'dev'}`);
+// const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
 //migrations-start
-var DbMigrate = require('db-migrate'); 
-var dbm = DbMigrate.getInstance(true, {
-  env: isProduction?'production':'development',
-  config: path.join(__dirname, './db/database.json'),
-  cmdOptions: {
-    'migrations-dir': path.join(__dirname, './db/migrations') 
-  },
-  throwUncatched: true
-});
-dbm.up()
-.then((result)=>{
-  console.log(result ?result.length: result ,'  number of migrations are executed');
-})
-.catch((err) => {
-  console.log('err -> ', err);
-});
+// var DbMigrate = require('db-migrate'); 
+// var dbm = DbMigrate.getInstance(true, {
+//   env: isProduction?'production':'development',
+//   config: path.join(__dirname, './db/database.json'),
+//   cmdOptions: {
+//     'migrations-dir': path.join(__dirname, './db/migrations') 
+//   },
+//   throwUncatched: true
+// });
+// dbm.up()
+// .then((result)=>{
+//   console.log(result ?result.length: result ,'  number of migrations are executed');
+// })
+// .catch((err) => {
+//   console.log('err -> ', err);
+// });
 //migrations-start
+
 
 app.use('/api/v1/*', (req, res, next) => {
   const url = req.originalUrl;
@@ -48,9 +50,9 @@ app.use('/api/v1/*', (req, res, next) => {
   }
   else{
     if(!req.session || !req.session.email){
-      res.status(401)
-      res.json({error: 'session not found'})
-      // next()
+      // res.status(401)
+      // res.json({error: 'session not found'})
+      next()
     }
     else{
       next();
@@ -61,18 +63,26 @@ app.use('/api/v1/*', (req, res, next) => {
 app.use('/api/v1', indexrouter);
 
 if(isProduction){
-  app.use(express.static(DIST_DIR));
+  // app.use(express.static(DIST_DIR));
   app.get('*', (_req, res) => {
-      res.sendFile(HTML_FILE);
+    res.send('any route')  
+    // res.sendFile(HTML_FILE);
   });
 } else {
   app.get('*', (req, res) => {
     res.status(404).send(`Api not exist for ${req.url}`);
   });
 }
-        
-app.listen(port, function () {
+
+app.listen(port, async function () {
+  db.query('SELECT datname FROM pg_database', [], (err, result) => {
+    if (err) {
+      console.log('err -> ', err);
+    }
+    console.log('result -> ', result);
+  })
   console.log('App listening on port: ' + port);
+
 });
      
 // PORT=3000
