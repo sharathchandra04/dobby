@@ -1,0 +1,8 @@
+# !/bin/bashrc
+source ./installnvm
+source ~/.bashrc
+source ~/.nvm/nvm.sh
+nvm --version
+nvm use 15
+npm install
+npm run runserverprod
