@@ -30,8 +30,3 @@ module.exports = {
     return pool.query(text, params, callback)
   },
 };
-// module.exports = {
-//   query: (text, params, callback) => {
-//     return awspool.query(text, params, callback)
-//   },
-// };
